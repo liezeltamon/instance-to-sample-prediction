@@ -1,0 +1,301 @@
+comparison,comparison_label,group,feature_type,feature,label_a,label_b,effect_size,pvalue,neg_log_pvalue,significant,n_samples_a,n_samples_b
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_6,1:top,other:top,3.4556213095065296,3.7565127337837243e-6,5.425215134655281,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_6,0:top,other:top,-3.4556213095065296,3.7565127337837243e-6,5.425215134655281,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_8,1:top,other:top,2.321622183523608,0.0002179888716618868,3.6615656765751887,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_8,0:top,other:top,-2.321622183523608,0.0002179888716618868,3.6615656765751887,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_9,1:top,other:top,2.1044656452208383,0.0004851655384860639,3.3141100548311537,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_9,0:top,other:top,-2.1044656452208383,0.0004851655384860639,3.3141100548311537,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_10,1:top,other:top,2.1410468060281245,0.0006608376002747512,3.179905254538652,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_10,0:top,other:top,-2.1410468060281245,0.0006608376002747512,3.179905254538652,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_7,1:top,other:top,1.8780510105528054,0.0013751882355210899,2.8616378516134175,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_7,0:top,other:top,-1.8780510105528054,0.0013751882355210899,2.8616378516134175,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_3,0:top,other:top,1.1392930882683623,0.029313859519544037,1.5329269977440223,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_3,1:top,other:top,-1.1392930882683623,0.029313859519544037,1.5329269977440223,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_11,1:top,other:top,1.0583525324044365,0.041637401454392715,1.3805163821690132,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_11,0:top,other:top,-1.0583525324044365,0.041637401454392715,1.3805163821690132,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_2,1:top,other:top,1.025230911538569,0.0450704818893212,1.3461077984687546,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_2,0:top,other:top,-1.025230911538569,0.0450704818893212,1.3461077984687546,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_5,1:top,other:top,-0.6562345246064727,0.18294952044241836,0.7376687245730251,false,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_5,0:top,other:top,0.6562345246064727,0.18294952044241836,0.7376687245730251,false,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_1,0:top,other:top,-0.40147524671407403,0.410284406129254,0.3869149891523037,false,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_1,1:top,other:top,0.40147524671407403,0.410284406129254,0.3869149891523037,false,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_0,0:top,other:top,0.03711112891570202,0.9382411847979695,0.027685507289602528,false,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_0,1:top,other:top,-0.03711112891570202,0.9382411847979695,0.027685507289602528,false,9,9
+target_top_vs_other_top,top 1 vs other top,B,repertoire,repertoire_4,1:top,other:top,0.0344564001819496,0.9428235289202671,0.025569587844011168,false,9,9
+target_top_vs_other_top,top 0 vs other top,B,repertoire,repertoire_4,0:top,other:top,-0.0344564001819496,0.9428235289202671,0.025569587844011168,false,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_6,1:top,0:top,3.4556213095065296,3.7565127337837243e-6,5.425215134655281,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_8,1:top,0:top,2.321622183523608,0.0002179888716618868,3.6615656765751887,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_9,1:top,0:top,2.1044656452208383,0.0004851655384860639,3.3141100548311537,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_10,1:top,0:top,2.1410468060281245,0.0006608376002747512,3.179905254538652,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_7,1:top,0:top,1.8780510105528054,0.0013751882355210899,2.8616378516134175,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_3,1:top,0:top,-1.1392930882683623,0.029313859519544037,1.5329269977440223,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_11,1:top,0:top,1.0583525324044365,0.041637401454392715,1.3805163821690132,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_2,1:top,0:top,1.025230911538569,0.0450704818893212,1.3461077984687546,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_5,1:top,0:top,-0.6562345246064727,0.18294952044241836,0.7376687245730251,false,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_1,1:top,0:top,0.40147524671407403,0.410284406129254,0.3869149891523037,false,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_0,1:top,0:top,-0.03711112891570202,0.9382411847979695,0.027685507289602528,false,9,9
+top_label_vs_top_label,top 1 vs top 0,B,repertoire,repertoire_4,1:top,0:top,0.0344564001819496,0.9428235289202671,0.025569587844011168,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_6,1:top,1:rest,2.4304779097984732,0.00008458566037720395,4.072703255718665,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_10,1:top,1:rest,2.3928597353556698,0.00009440821454941089,4.024990215677898,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_8,1:top,1:rest,1.8699820635995175,0.0005043648383559598,3.297255197753711,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_9,1:top,1:rest,1.5401565959397323,0.001709152209002736,2.7672192593468683,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_11,1:top,1:rest,1.399449207025017,0.0030032872406893993,2.5224031289796205,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_7,1:top,1:rest,1.3768903635674055,0.0032954107088918614,2.482090451331018,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_11,0:top,0:rest,1.321063589857218,0.004158400156591938,2.381073721488933,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_1,0:top,0:rest,-1.2614922449692907,0.005353838226206984,2.2713347557727466,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_0,0:top,0:rest,-0.9385890990173376,0.022641000231607238,1.6451043908463026,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_0,1:top,1:rest,-0.8761706004267173,0.030247993967497316,1.519303422258946,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_3,0:top,0:rest,0.8318261181492391,0.03720324708390233,1.4294191534224348,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_5,0:top,0:rest,0.6495548476647554,0.08717185767351074,1.059623698894931,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_8,0:top,0:rest,0.6150990062885889,0.10221157334759053,0.990499926545474,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_6,0:top,0:rest,-0.6071057037942235,0.10603803204380224,0.9745383409205377,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_2,1:top,1:rest,0.45762263690685856,0.2070422366987645,0.683941049257703,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_1,1:top,1:rest,-0.39778206640988506,0.2669198691728076,0.5736190966848272,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_10,0:top,0:rest,0.38510586685931775,0.28129851132800754,0.550832566177289,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_2,0:top,0:rest,-0.3061376930719403,0.38525566756120055,0.41425096358306623,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_3,1:top,1:rest,-0.26389785451122905,0.4513727629169483,0.34546465099986085,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_7,0:top,0:rest,-0.18386685086656573,0.5962887211614437,0.22454340528393235,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_9,0:top,0:rest,0.14201223943447974,0.6813121219327397,0.16665388400693204,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_5,1:top,1:rest,-0.1303945916730813,0.7058736966224668,0.15127300116785788,false,9,9
+top_vs_rest_within_label,1: top vs rest,B,repertoire,repertoire_4,1:top,1:rest,-0.10255841408224696,0.7661871835891444,0.11566511696148406,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,repertoire,repertoire_4,0:top,0:rest,0.0462682054560474,0.8930350535418405,0.04913149378669444,false,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_10,0:top,other:top,-2.7169754110192015,0.00003358907267888216,4.473801985917301,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_10,1:top,other:top,2.7169754110192015,0.00003358907267888216,4.473801985917301,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_3,1:top,other:top,2.4905311506754884,0.0000798529434325339,4.097709070847387,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_3,0:top,other:top,-2.4905311506754884,0.0000798529434325339,4.097709070847387,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_7,0:top,other:top,-2.236324270601488,0.00032466597469126544,3.4885632234717,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_7,1:top,other:top,2.236324270601488,0.00032466597469126544,3.4885632234717,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_2,1:top,other:top,2.073723724149784,0.00045045112202063344,3.3463523269676423,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_2,0:top,other:top,-2.073723724149784,0.00045045112202063344,3.3463523269676423,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_11,0:top,other:top,-1.8810528355907778,0.0010615273031391078,2.974068831031511,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_11,1:top,other:top,1.8810528355907778,0.0010615273031391078,2.974068831031511,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_8,1:top,other:top,1.8680195044373695,0.0013759484816107768,2.8613978266899105,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_8,0:top,other:top,-1.8680195044373695,0.0013759484816107768,2.8613978266899105,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_0,1:top,other:top,1.4513896600621374,0.007215075039204422,2.141759147738479,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_0,0:top,other:top,-1.4513896600621374,0.007215075039204422,2.141759147738479,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_4,1:top,other:top,1.3483198793518825,0.01204496628015339,1.9191944114700223,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_4,0:top,other:top,-1.3483198793518825,0.01204496628015339,1.9191944114700223,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_5,1:top,other:top,1.2662310049572003,0.017221038393919835,1.7639406650105347,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_5,0:top,other:top,-1.2662310049572003,0.017221038393919835,1.7639406650105347,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_9,0:top,other:top,-1.2961600942632516,0.018009402882195963,1.744500686362386,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_9,1:top,other:top,1.2961600942632516,0.018009402882195963,1.744500686362386,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_1,0:top,other:top,-1.1488738888065768,0.02696912137475014,1.5691332021682944,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_1,1:top,other:top,1.1488738888065768,0.02696912137475014,1.5691332021682944,true,9,9
+target_top_vs_other_top,top 1 vs other top,B,transcriptome,transcriptome_6,1:top,other:top,1.0723730267902074,0.04499471324657728,1.3468385116184485,true,9,9
+target_top_vs_other_top,top 0 vs other top,B,transcriptome,transcriptome_6,0:top,other:top,-1.0723730267902074,0.04499471324657728,1.3468385116184485,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_10,1:top,0:top,2.7169754110192015,0.00003358907267888216,4.473801985917301,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_3,1:top,0:top,2.4905311506754884,0.0000798529434325339,4.097709070847387,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_7,1:top,0:top,2.236324270601488,0.00032466597469126544,3.4885632234717,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_2,1:top,0:top,2.073723724149784,0.00045045112202063344,3.3463523269676423,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_11,1:top,0:top,1.8810528355907778,0.0010615273031391078,2.974068831031511,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_8,1:top,0:top,1.8680195044373695,0.0013759484816107768,2.8613978266899105,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_0,1:top,0:top,1.4513896600621374,0.007215075039204422,2.141759147738479,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_4,1:top,0:top,1.3483198793518825,0.01204496628015339,1.9191944114700223,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_5,1:top,0:top,1.2662310049572003,0.017221038393919835,1.7639406650105347,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_9,1:top,0:top,1.2961600942632516,0.018009402882195963,1.744500686362386,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_1,1:top,0:top,1.1488738888065768,0.02696912137475014,1.5691332021682944,true,9,9
+top_label_vs_top_label,top 1 vs top 0,B,transcriptome,transcriptome_6,1:top,0:top,1.0723730267902074,0.04499471324657728,1.3468385116184485,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_7,1:top,1:rest,4.232152605500598,1.3931553856141524e-6,5.856000441830675,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_3,1:top,1:rest,3.265192761265313,9.901272811353693e-6,5.004308973138187,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_2,1:top,1:rest,2.4367881750996823,0.00008305170340665115,4.080651455656627,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_11,1:top,1:rest,2.201113295684623,0.00016879800594514927,3.772632688113998,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_8,1:top,1:rest,2.064761138857335,0.0002610496734535249,3.583276845710959,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_10,1:top,1:rest,2.020721295333264,0.0003018215658537811,3.520249732099601,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_4,1:top,1:rest,1.8944018494250523,0.0004632729037483767,3.3341631003940693,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_1,1:top,1:rest,1.7207664666618827,0.000861227017474928,3.0648823544219033,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_5,1:top,1:rest,1.487140746989551,0.0021070808345289107,2.67631880311214,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_6,1:top,1:rest,1.3701923662377038,0.003387936134497695,2.470064785087689,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_0,1:top,1:rest,1.312235099459604,0.004315823464537022,2.364936328109943,true,9,9
+top_vs_rest_within_label,1: top vs rest,B,transcriptome,transcriptome_9,1:top,1:rest,0.955492322322392,0.02094195449084366,1.6789827885130915,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_5,0:top,0:rest,0.9243351473226318,0.024184221877897462,1.6164678813816578,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_4,0:top,0:rest,0.8985617623166118,0.02725555154117359,1.564545025198763,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_6,0:top,0:rest,0.8265501008695508,0.0381324367076487,1.4187054419103458,true,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_10,0:top,0:rest,-0.7012843825140083,0.06852554369631045,1.164147509989548,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_1,0:top,0:rest,0.5909326163620527,0.1141980075690483,0.9423414732295436,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_11,0:top,0:rest,0.4897451285499386,0.17996298034078873,0.744816823159055,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_7,0:top,0:rest,0.27146701118267613,0.4389831273394875,0.357552171885844,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_3,0:top,0:rest,0.25442242667400056,0.46721311159508316,0.33048497793869597,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_8,0:top,0:rest,0.1659119273518692,0.632061712860575,0.19924051626452863,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_2,0:top,0:rest,-0.154583198451406,0.6551840106062068,0.1836367098285692,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_9,0:top,0:rest,-0.08480640636777886,0.8055892951928421,0.09388631339481453,false,9,9
+top_vs_rest_within_label,0: top vs rest,B,transcriptome,transcriptome_0,0:top,0:rest,-0.0024090045182786103,0.9944106966041455,0.0024342127542129953,false,9,9
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_1,0:top,other:top,-2.6166895607094127,0.0003750692038043445,3.425888593452326,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_1,1:top,other:top,2.6166895607094127,0.0003750692038043445,3.425888593452326,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_2,1:top,other:top,2.177826511755638,0.0028675594932844736,2.5424875630214188,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_2,0:top,other:top,-2.177826511755638,0.0028675594932844736,2.5424875630214188,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_3,1:top,other:top,2.0034941894449814,0.003268528389257603,2.4856477385565983,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_3,0:top,other:top,-2.0034941894449814,0.003268528389257603,2.4856477385565983,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_5,1:top,other:top,1.790520091257485,0.00647304078169403,2.188891656815086,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_5,0:top,other:top,-1.790520091257485,0.00647304078169403,2.188891656815086,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_7,1:top,other:top,-1.3849770270297581,0.024574065106475872,1.6095229954417831,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_7,0:top,other:top,1.3849770270297581,0.024574065106475872,1.6095229954417831,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_0,0:top,other:top,-1.209190573081512,0.04307508258129728,1.3657738812724507,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_0,1:top,other:top,1.209190573081512,0.04307508258129728,1.3657738812724507,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_11,0:top,other:top,1.0025995146032964,0.09392613884534314,1.0272135304540928,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_11,1:top,other:top,-1.0025995146032964,0.09392613884534314,1.0272135304540928,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_4,1:top,other:top,0.6928794150847558,0.22792175027725933,0.6422142286824227,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_4,0:top,other:top,-0.6928794150847558,0.22792175027725933,0.6422142286824227,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_8,0:top,other:top,0.5481041907990687,0.3256157714667618,0.4872945678642127,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_8,1:top,other:top,-0.5481041907990687,0.3256157714667618,0.4872945678642127,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_10,0:top,other:top,0.5457489401866359,0.3274570317740705,0.484845679146044,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_10,1:top,other:top,-0.5457489401866359,0.3274570317740705,0.484845679146044,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_6,0:top,other:top,-0.12847425628320733,0.814130359240032,0.08930604994396288,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_6,1:top,other:top,0.12847425628320733,0.814130359240032,0.08930604994396288,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,repertoire,repertoire_9,1:top,other:top,0.08540603779591072,0.8757134592232262,0.057637975379158456,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,repertoire,repertoire_9,0:top,other:top,-0.08540603779591072,0.8757134592232262,0.057637975379158456,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_1,1:top,0:top,2.6166895607094127,0.0003750692038043445,3.425888593452326,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_2,1:top,0:top,2.177826511755638,0.0028675594932844736,2.5424875630214188,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_3,1:top,0:top,2.0034941894449814,0.003268528389257603,2.4856477385565983,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_5,1:top,0:top,1.790520091257485,0.00647304078169403,2.188891656815086,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_7,1:top,0:top,-1.3849770270297581,0.024574065106475872,1.6095229954417831,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_0,1:top,0:top,1.209190573081512,0.04307508258129728,1.3657738812724507,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_11,1:top,0:top,-1.0025995146032964,0.09392613884534314,1.0272135304540928,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_4,1:top,0:top,0.6928794150847558,0.22792175027725933,0.6422142286824227,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_8,1:top,0:top,-0.5481041907990687,0.3256157714667618,0.4872945678642127,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_10,1:top,0:top,-0.5457489401866359,0.3274570317740705,0.484845679146044,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_6,1:top,0:top,0.12847425628320733,0.814130359240032,0.08930604994396288,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,repertoire,repertoire_9,1:top,0:top,0.08540603779591072,0.8757134592232262,0.057637975379158456,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_3,1:top,1:rest,2.256055340528163,0.0009911271785094664,3.003870614555024,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_1,1:top,1:rest,1.7436705553075151,0.003640764138335174,2.4388074552977113,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_5,1:top,1:rest,1.729239816453232,0.003789889672665962,2.421373432578046,true,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_7,0:top,0:rest,1.33111559961569,0.01249123940534605,1.903394467935088,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_0,1:top,1:rest,1.2860802435884457,0.014448739101960251,1.8401700508281227,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_2,1:top,1:rest,1.0068088677917881,0.03733586285208643,1.4278738074381851,true,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_2,0:top,0:rest,-0.9661594795286076,0.04312781229600138,1.3652425713433096,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_4,1:top,1:rest,0.762305143729854,0.0902910821059142,1.0443551420835013,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_10,0:top,0:rest,0.6905482436996381,0.11747236540396054,0.9300642862782174,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_5,0:top,0:rest,0.6662502919562681,0.12840882846949983,0.8914051162688797,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_11,0:top,0:rest,0.5524851449463662,0.19412551122143148,0.7119173875654874,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_3,0:top,0:rest,0.5044925991547063,0.23036884808722663,0.6375762492875491,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_4,0:top,0:rest,0.47100685882159893,0.2591518440973552,0.5864456964194492,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_6,0:top,0:rest,-0.4554935312466776,0.2735256088120139,0.5630020066428273,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_1,0:top,0:rest,-0.4002925623851413,0.33032755121070234,0.48105520214941233,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_8,0:top,0:rest,0.38032604954842325,0.35313793940157295,0.4520556214694118,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_11,1:top,1:rest,-0.29536086803406364,0.4642462982571246,0.3332515504916039,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_0,0:top,0:rest,-0.27952458863423785,0.4874863805396915,0.3120375131738192,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_9,1:top,1:rest,0.2568292573358715,0.5221536904745334,0.28220164814540527,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_7,1:top,1:rest,-0.1847540947519328,0.642326037007942,0.19224447328453048,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,repertoire,repertoire_9,0:top,0:rest,0.15700982194994365,0.6922891671282345,0.15971246413208495,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_8,1:top,1:rest,-0.0442398512183247,0.9106420038852248,0.040652321483514796,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_6,1:top,1:rest,-0.02426051300430048,0.950906170359596,0.021862334487892474,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,repertoire,repertoire_10,1:top,1:rest,-0.021250262435629996,0.9569897331661041,0.01909272142192889,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_1,0:top,other:top,-2.0914722765370173,0.0027707540594861598,2.55740202179926,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_1,1:top,other:top,2.0914722765370173,0.0027707540594861598,2.55740202179926,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_11,1:top,other:top,1.8661676047363136,0.004466594456222019,2.350023477440932,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_11,0:top,other:top,-1.8661676047363136,0.004466594456222019,2.350023477440932,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_3,1:top,other:top,1.868232878572229,0.004980810308691593,2.302699997809319,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_3,0:top,other:top,-1.868232878572229,0.004980810308691593,2.302699997809319,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_10,1:top,other:top,1.7931181611023157,0.006912636083095716,2.160356306022751,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_10,0:top,other:top,-1.7931181611023157,0.006912636083095716,2.160356306022751,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_5,0:top,other:top,-1.7405181497914273,0.009033573028892872,2.0441404401835115,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_5,1:top,other:top,1.7405181497914273,0.009033573028892872,2.0441404401835115,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_8,0:top,other:top,-1.6548342547129034,0.012358737416733491,1.9080258950201647,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_8,1:top,other:top,1.6548342547129034,0.012358737416733491,1.9080258950201647,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_2,0:top,other:top,-1.5026486266796242,0.017278297168212078,1.7624990608669322,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_2,1:top,other:top,1.5026486266796242,0.017278297168212078,1.7624990608669322,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_0,1:top,other:top,1.4926261493645134,0.019550189299223027,1.7088490330911337,true,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_0,0:top,other:top,-1.4926261493645134,0.019550189299223027,1.7088490330911337,true,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_7,1:top,other:top,0.9499169155943527,0.10623745628700006,0.9737223364488066,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_7,0:top,other:top,-0.9499169155943527,0.10623745628700006,0.9737223364488066,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_9,1:top,other:top,0.7323961758555008,0.20977642468996865,0.6782433207294876,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_9,0:top,other:top,-0.7323961758555008,0.20977642468996865,0.6782433207294876,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_4,1:top,other:top,0.6679276709189229,0.24839549072187286,0.6048562924422508,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_4,0:top,other:top,-0.6679276709189229,0.24839549072187286,0.6048562924422508,false,7,7
+target_top_vs_other_top,top 1 vs other top,T,transcriptome,transcriptome_6,1:top,other:top,-0.17085406770754555,0.758481496458058,0.12005500958282919,false,7,7
+target_top_vs_other_top,top 0 vs other top,T,transcriptome,transcriptome_6,0:top,other:top,0.17085406770754555,0.758481496458058,0.12005500958282919,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_1,1:top,0:top,2.0914722765370173,0.0027707540594861598,2.55740202179926,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_11,1:top,0:top,1.8661676047363136,0.004466594456222019,2.350023477440932,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_3,1:top,0:top,1.868232878572229,0.004980810308691593,2.302699997809319,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_10,1:top,0:top,1.7931181611023157,0.006912636083095716,2.160356306022751,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_5,1:top,0:top,1.7405181497914273,0.009033573028892872,2.0441404401835115,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_8,1:top,0:top,1.6548342547129034,0.012358737416733491,1.9080258950201647,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_2,1:top,0:top,1.5026486266796242,0.017278297168212078,1.7624990608669322,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_0,1:top,0:top,1.4926261493645134,0.019550189299223027,1.7088490330911337,true,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_7,1:top,0:top,0.9499169155943527,0.10623745628700006,0.9737223364488066,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_9,1:top,0:top,0.7323961758555008,0.20977642468996865,0.6782433207294876,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_4,1:top,0:top,0.6679276709189229,0.24839549072187286,0.6048562924422508,false,7,7
+top_label_vs_top_label,top 1 vs top 0,T,transcriptome,transcriptome_6,1:top,0:top,-0.17085406770754555,0.758481496458058,0.12005500958282919,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_6,0:top,0:rest,3.3091050581324373,0.00012295554746521146,3.9102518721373047,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_9,1:top,1:rest,3.0149731540813165,0.00020675931424446329,3.684534916919995,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_11,1:top,1:rest,2.8200683830463715,0.0002989591546357588,3.5243881432074695,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_0,1:top,1:rest,2.503728601634119,0.0005703539652079945,3.2438555348093328,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_1,1:top,1:rest,2.2468477579470756,0.0010125860814386384,2.994568046528419,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_5,1:top,1:rest,1.93009495527406,0.00220715515575527,2.656167136290143,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_3,1:top,1:rest,1.6718240068095467,0.00445542290402052,2.3511110668985826,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_2,1:top,1:rest,1.5244076577410455,0.006855328083638135,2.1639717558264664,true,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_3,0:top,0:rest,1.4164446467336818,0.009537129826917047,2.0205823053670424,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_10,1:top,1:rest,1.3222012965655552,0.012854199248496899,1.890954972524882,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_8,1:top,1:rest,1.1316602449014412,0.02419202189131988,1.6163278331863642,true,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_1,0:top,0:rest,1.0044420210010534,0.03764931219049737,1.424242953450004,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_6,1:top,1:rest,0.9427760783103424,0.046885258723883085,1.3289636831102676,true,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_4,1:top,1:rest,0.8263108846848186,0.0714467398572955,1.1460175834480908,false,7,7
+top_vs_rest_within_label,1: top vs rest,T,transcriptome,transcriptome_7,1:top,1:rest,0.6109759002226899,0.1571156916959475,0.803780438278674,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_5,0:top,0:rest,0.6071724706103183,0.15930346939130213,0.7977747658116072,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_4,0:top,0:rest,0.5985810810756379,0.16435271314671207,0.7842231221578371,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_9,0:top,0:rest,0.5769304134177219,0.1777583257603551,0.7501700488423579,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_2,0:top,0:rest,0.3127962780668796,0.43957540023488834,0.35696661979990674,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_10,0:top,0:rest,-0.21489954264477595,0.5902776303389029,0.2289436748585249,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_8,0:top,0:rest,0.18183656235220702,0.647490764222764,0.18876642195821056,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_11,0:top,0:rest,0.1687139830200675,0.670984395689146,0.1732875795998575,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_7,0:top,0:rest,0.08011089788820029,0.8391599412222887,0.07615525613164673,false,7,7
+top_vs_rest_within_label,0: top vs rest,T,transcriptome,transcriptome_0,0:top,0:rest,0.024108870060262796,0.951212550056517,0.02172242838060012,false,7,7
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_7,1:top,other:top,2.018825013303354,0.002815339476485769,2.5504692299865774,true,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_7,0:top,other:top,-2.018825013303354,0.002815339476485769,2.5504692299865774,true,5,8
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_0,0:top,other:top,-1.460389637859561,0.030243951664905695,1.5193614646873714,true,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_0,1:top,other:top,1.460389637859561,0.030243951664905695,1.5193614646873714,true,8,5
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_8,1:top,other:top,1.43614470029751,0.059271038721841876,1.227157461706295,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_8,0:top,other:top,-1.43614470029751,0.059271038721841876,1.227157461706295,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_10,1:top,other:top,1.01320480084608,0.08463398953651866,1.0724551865637317,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_10,0:top,other:top,-1.01320480084608,0.08463398953651866,1.0724551865637317,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_2,1:top,other:top,1.3849747146698301,0.09784055826354668,1.0094810779455436,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_2,0:top,other:top,-1.3849747146698301,0.09784055826354668,1.0094810779455436,false,5,8
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_9,0:top,other:top,-1.0194488376163244,0.1113035839571494,0.9534908512290501,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_9,1:top,other:top,1.0194488376163244,0.1113035839571494,0.9534908512290501,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_3,0:top,other:top,-1.0843901755726584,0.1311011750665252,0.8823934156888577,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_3,1:top,other:top,1.0843901755726584,0.1311011750665252,0.8823934156888577,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_1,0:top,other:top,-0.8372018632663837,0.17110944900323646,0.7667260071938082,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_1,1:top,other:top,0.8372018632663837,0.17110944900323646,0.7667260071938082,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_11,0:top,other:top,-0.8583574114843646,0.2390203896293509,0.6215650499898866,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_11,1:top,other:top,0.8583574114843646,0.2390203896293509,0.6215650499898866,false,8,5
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_4,1:top,other:top,0.5424404712585532,0.35542296920305927,0.44925450935062317,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_4,0:top,other:top,-0.5424404712585532,0.35542296920305927,0.44925450935062317,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_5,1:top,other:top,0.2827853621470776,0.6699117876551295,0.1739823803690164,false,8,5
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_5,0:top,other:top,-0.2827853621470776,0.6699117876551295,0.1739823803690164,false,5,8
+target_top_vs_other_top,top 0 vs other top,myeloid,transcriptome,transcriptome_6,0:top,other:top,-0.19939781400924067,0.7568671900805791,0.12098032086370077,false,5,8
+target_top_vs_other_top,top 1 vs other top,myeloid,transcriptome,transcriptome_6,1:top,other:top,0.19939781400924067,0.7568671900805791,0.12098032086370077,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_7,1:top,0:top,2.018825013303354,0.002815339476485769,2.5504692299865774,true,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_0,1:top,0:top,1.460389637859561,0.030243951664905695,1.5193614646873714,true,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_8,1:top,0:top,1.43614470029751,0.059271038721841876,1.227157461706295,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_10,1:top,0:top,1.01320480084608,0.08463398953651866,1.0724551865637317,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_2,1:top,0:top,1.3849747146698301,0.09784055826354668,1.0094810779455436,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_9,1:top,0:top,1.0194488376163244,0.1113035839571494,0.9534908512290501,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_3,1:top,0:top,1.0843901755726584,0.1311011750665252,0.8823934156888577,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_1,1:top,0:top,0.8372018632663837,0.17110944900323646,0.7667260071938082,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_11,1:top,0:top,0.8583574114843646,0.2390203896293509,0.6215650499898866,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_4,1:top,0:top,0.5424404712585532,0.35542296920305927,0.44925450935062317,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_5,1:top,0:top,0.2827853621470776,0.6699117876551295,0.1739823803690164,false,8,5
+top_label_vs_top_label,top 1 vs top 0,myeloid,transcriptome,transcriptome_6,1:top,0:top,0.19939781400924067,0.7568671900805791,0.12098032086370077,false,8,5
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_3,1:top,1:rest,3.845755492660189,0.00001225694172817717,4.911617878615625,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_11,1:top,1:rest,2.516115778712022,0.00019085228272803996,3.7193026412152093,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_2,1:top,1:rest,2.163603890578597,0.0004817000427837963,3.3172233151122508,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_9,1:top,1:rest,1.8638461660509205,0.0011584071760267437,2.9361387607988934,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_8,1:top,1:rest,1.731161356160281,0.0017602107881268551,2.754435321595597,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_0,1:top,1:rest,1.5925970927363338,0.0027831378806829135,2.555465277555129,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_7,1:top,1:rest,1.4962233796957165,0.003878710802416727,2.4113126002908296,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_1,1:top,1:rest,1.4489234336293921,0.004583554988974004,2.3387975540456027,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_4,1:top,1:rest,1.2562845145581254,0.009302409113193275,2.0314045644487515,true,8,8
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_3,0:top,0:rest,1.9399591703179542,0.01227337375680618,1.9110360401609316,true,5,5
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_5,1:top,1:rest,1.0603494736337418,0.01996693250331395,1.699688650162382,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_10,1:top,1:rest,1.002159854737616,0.025241497620618752,1.5978848812394955,true,8,8
+top_vs_rest_within_label,1: top vs rest,myeloid,transcriptome,transcriptome_6,1:top,1:rest,0.9047966952098037,0.03759812166279434,1.4248338511324454,true,8,8
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_11,0:top,0:rest,1.1612458986670622,0.060261864146474706,1.2199574379463431,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_4,0:top,0:rest,0.9454314137388323,0.1020237613010615,0.9912986694131034,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_9,0:top,0:rest,0.7864620460659724,0.15347050705720675,0.8139750719976699,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_5,0:top,0:rest,0.726170231820156,0.17974852796090943,0.745334657557441,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_1,0:top,0:rest,0.6198102768536529,0.23802465941158485,0.6233780476005951,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_6,0:top,0:rest,0.6011597177559113,0.2500483033872516,0.6019760878551829,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_2,0:top,0:rest,0.4575510849133847,0.36409131265039185,0.4387896833648967,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_7,0:top,0:rest,0.14652802565998127,0.7596103644301184,0.11940911820555697,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_0,0:top,0:rest,0.13873681385247505,0.7718813850731605,0.11244943252184884,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_8,0:top,0:rest,0.11045769068979057,0.8170740322971402,0.08773859173991842,false,5,5
+top_vs_rest_within_label,0: top vs rest,myeloid,transcriptome,transcriptome_10,0:top,0:rest,0.014843785419437889,0.975111927006699,0.010945531489667586,false,5,5

@@ -63,4 +63,5 @@ data/*
 !data/README.md
 
 results/*
-!results/README.md
+!results/run_pipeline_simulated/
+!results/run_pipeline_simulated/**

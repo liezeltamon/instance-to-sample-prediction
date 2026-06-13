@@ -1,0 +1,4 @@
+metric,label,value
+sample_accuracy_0_5,Sample accuracy,1.0
+sample_roc_auc,Sample ROC AUC,1.0
+attention_roc_auc,Attention ROC AUC,0.9850666666666665
