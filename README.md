@@ -17,12 +17,14 @@ S002    cell_003     0          B          1.12              0.03           -0.2
 
 `driver_true` is used only in the simulated demo to evaluate attention recovery; it is not required for real prediction use.
 
+Downstream feature diagnostics use the model input table by default, but can also be run on a separate instance-by-feature table joined by `instance_id`. This is useful when the MIL model was trained on latent embeddings but feature discovery should be done on original gene or marker values.
+
 ## Workflow
 
 1. Create or provide a MIL-ready instance table.
 2. Select numeric feature or embedding columns by modality.
 3. Train a gated-attention MIL classifier from sample-level labels.
-4. Export sample predictions, instance-level attention scores, performance metrics, and grouped feature diagnostics.
+4. Export sample predictions, instance-level attention scores, performance metrics, simulation diagnostics, and top-attention downstream feature diagnostics.
 
 The included simulation creates a small MIL-ready example with transcriptome and repertoire feature blocks. Simulated T and B cells have repertoire features; simulated myeloid cells have transcriptome features only and zero-valued repertoire features.
 
@@ -46,7 +48,7 @@ python scripts/run_pipeline_simulated.py
 If Matplotlib cannot write its cache in a restricted environment, run with a writable cache directory:
 
 ```bash
-MPLCONFIGDIR=.cache/matplotlib python scripts/run_pipeline_simulated.py
+MPLBACKEND=Agg MPLCONFIGDIR=.cache/matplotlib python scripts/run_pipeline_simulated.py
 ```
 
 ## Outputs
@@ -54,13 +56,18 @@ MPLCONFIGDIR=.cache/matplotlib python scripts/run_pipeline_simulated.py
 The demo writes outputs to `results/run_pipeline_simulated/`:
 
 - `sample_predictions.csv`: sample labels and predicted probabilities.
-- `instance_attention.csv`: attention scores for each instance, including `cell_type` and the known simulated driver label.
+- `instance_attention.csv`: attention scores for each instance, including `bag_label`, `cell_type`, and the known simulated driver label.
 - `performance_metrics.csv`: sample-level and attention-based performance metrics.
 - `performance_metrics.png`: bar plot of available performance metrics.
 - `attention_diagnostics.png`: attention by true driver status.
 - `comparison_groups.csv`: driver and matched non-driver counts used for grouped comparisons.
 - `feature_stats_grouped.csv`: per-group, per-modality driver vs non-driver feature statistics.
-- `volcano_grouped.png`: grouped volcano panels for transcriptome and active repertoire feature blocks.
+- `top_attention_instances.csv`: top-attention instances selected within each sample.
+- `top_attention_pseudobulk.csv`: sample-level pseudobulks for top-attention and rest instances.
+- `top_attention_feature_comparisons.csv`: lightweight MultiMIL-style feature comparisons by group and feature type.
+- `top_attention_feature_heatmap.png`: feature-by-comparison effect-size heatmap with significant cells outlined.
+- `attention_summary_heatmap.csv`: sample-balanced top-attention summaries by feature type, label, and group.
+- `attention_summary_heatmap.png`: red heatmap of mean and median attention with SD annotations.
 
 ## Repository layout
 

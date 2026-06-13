@@ -11,12 +11,17 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from utils.analysis import (
+    compute_attention_summary_table,
     compute_grouped_feature_statistics,
     compute_performance_metrics,
+    compute_top_attention_feature_comparisons,
+    compute_top_attention_pseudobulk,
     plot_attention_diagnostics,
-    plot_grouped_volcano,
+    plot_attention_summary_heatmap,
     plot_performance_metrics,
+    plot_top_attention_feature_heatmap,
     sample_driver_and_nondriver_ids,
+    select_top_attention_instances,
     summarize_attention_by_truth,
 )
 from utils.data import generate_synthetic_bag_data
@@ -67,7 +72,7 @@ def main() -> None:
 
     probabilities, attention, bag_ids = predict_mil(model, x, bag_index)
 
-    attention_table = data.select(["bag_id", "instance_id", group_col, "driver_true"]).with_columns(
+    attention_table = data.select(["bag_id", "instance_id", "bag_label", group_col, "driver_true"]).with_columns(
         pl.Series("attention", attention)
     )
 
@@ -107,6 +112,7 @@ def main() -> None:
         "transcriptome": transcriptome_cols,
         "repertoire": repertoire_cols,
     }
+
     grouped_stats = compute_grouped_feature_statistics(
         data,
         driver_ids,
@@ -115,12 +121,46 @@ def main() -> None:
         group_col=group_col,
     )
     save_table(grouped_stats, output_root / "feature_stats_grouped.csv")
-    plot_grouped_volcano(grouped_stats, output_root / "volcano_grouped.png")
+
+    top_attention_instances = select_top_attention_instances(attention_table, top_fraction=0.10)
+    save_table(top_attention_instances, output_root / "top_attention_instances.csv")
+
+    top_attention_pseudobulk = compute_top_attention_pseudobulk(
+        attention_table,
+        feature_sets,
+        feature_table=data,
+        group_col=group_col,
+        top_fraction=0.10,
+    )
+    save_table(top_attention_pseudobulk, output_root / "top_attention_pseudobulk.csv")
+
+    top_attention_comparisons = compute_top_attention_feature_comparisons(top_attention_pseudobulk)
+    save_table(top_attention_comparisons, output_root / "top_attention_feature_comparisons.csv")
+    plot_top_attention_feature_heatmap(
+        top_attention_comparisons,
+        output_root / "top_attention_feature_heatmap.png",
+    )
+
+    attention_summary = compute_attention_summary_table(
+        attention_table,
+        feature_sets,
+        feature_table=data,
+        group_col=group_col,
+        top_fraction=0.10,
+    )
+    save_table(attention_summary, output_root / "attention_summary_heatmap.csv")
+    plot_attention_summary_heatmap(attention_summary, output_root / "attention_summary_heatmap.png")
 
     print(f"Wrote outputs to {output_root}")
-    print("Saved grouped feature diagnostics to:")
+    print("Saved grouped feature tables to:")
     print(f"  - {output_root / 'feature_stats_grouped.csv'}")
-    print(f"  - {output_root / 'volcano_grouped.png'}")
+    print("Saved top-attention downstream diagnostics to:")
+    print(f"  - {output_root / 'top_attention_instances.csv'}")
+    print(f"  - {output_root / 'top_attention_pseudobulk.csv'}")
+    print(f"  - {output_root / 'top_attention_feature_comparisons.csv'}")
+    print(f"  - {output_root / 'top_attention_feature_heatmap.png'}")
+    print(f"  - {output_root / 'attention_summary_heatmap.csv'}")
+    print(f"  - {output_root / 'attention_summary_heatmap.png'}")
 
 
 if __name__ == "__main__":

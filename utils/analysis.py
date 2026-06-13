@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from itertools import combinations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 from adjustText import adjust_text
+from matplotlib.patches import Rectangle
+from scipy.cluster.hierarchy import leaves_list, linkage
 from scipy import stats
 from sklearn.metrics import accuracy_score, roc_auc_score
 
@@ -214,6 +217,691 @@ def _safe_ttest_pvalue(group1: np.ndarray, group2: np.ndarray) -> float:
     if not np.isfinite(pvalue):
         return 1.0
     return float(pvalue)
+
+
+def _safe_paired_ttest_pvalue(group1: np.ndarray, group2: np.ndarray) -> float:
+    if group1.size < 2 or group2.size < 2:
+        return float("nan")
+    _, pvalue = stats.ttest_rel(group1, group2, nan_policy="omit")
+    if not np.isfinite(pvalue):
+        return 1.0
+    return float(pvalue)
+
+
+def _paired_effect_size(group1: np.ndarray, group2: np.ndarray) -> float:
+    diff = np.asarray(group1, dtype=np.float64) - np.asarray(group2, dtype=np.float64)
+    diff = diff[np.isfinite(diff)]
+    if diff.size == 0:
+        return float("nan")
+    if diff.size == 1:
+        return 0.0
+    diff_sd = np.std(diff, ddof=1)
+    if not np.isfinite(diff_sd) or diff_sd == 0:
+        return 0.0
+    return float(np.mean(diff) / diff_sd)
+
+
+def _neg_log_pvalue(pvalue: float) -> float:
+    if not np.isfinite(pvalue):
+        return float("nan")
+    return float(-np.log10(max(pvalue, 1e-300)))
+
+
+def _iter_group_tables(data: pl.DataFrame, group_col: str | None) -> list[tuple[str, pl.DataFrame]]:
+    if group_col is None:
+        return [("all", data)]
+    group_values = data.select(group_col).unique().sort(group_col)[group_col].to_list()
+    return [(str(value), data.filter(pl.col(group_col) == value)) for value in group_values]
+
+
+def _active_feature_columns(
+    data: pl.DataFrame,
+    feature_columns: list[str],
+    *,
+    active_threshold: float,
+) -> list[str]:
+    existing_columns = [column for column in feature_columns if column in data.columns]
+    if not existing_columns:
+        return []
+
+    values = data.select(existing_columns).to_numpy().astype(np.float64)
+    values = np.nan_to_num(values, nan=0.0)
+    active = np.any(np.abs(values) > active_threshold, axis=0)
+    return [column for column, is_active in zip(existing_columns, active) if bool(is_active)]
+
+
+def _prepare_attention_feature_table(
+    attention_table: pl.DataFrame,
+    feature_sets: dict[str, list[str]],
+    *,
+    feature_table: pl.DataFrame | None,
+    id_col: str,
+) -> pl.DataFrame:
+    if feature_table is None:
+        return attention_table
+    if id_col not in feature_table.columns:
+        raise ValueError(f"feature_table must include {id_col!r}.")
+    if feature_table[id_col].n_unique() != feature_table.height:
+        raise ValueError(f"feature_table must contain one row per {id_col!r}.")
+
+    feature_columns = []
+    seen = set()
+    for columns in feature_sets.values():
+        for column in columns:
+            if column in feature_table.columns and column not in seen:
+                feature_columns.append(column)
+                seen.add(column)
+
+    feature_data = feature_table.select([id_col, *feature_columns])
+    overlapping_feature_columns = [column for column in feature_columns if column in attention_table.columns]
+    base_table = attention_table.drop(overlapping_feature_columns) if overlapping_feature_columns else attention_table
+    return base_table.join(feature_data, on=id_col, how="left")
+
+
+def _scored_top_attention_table(
+    attention_table: pl.DataFrame,
+    *,
+    bag_col: str,
+    id_col: str,
+    attention_col: str,
+    top_fraction: float,
+) -> pl.DataFrame:
+    if not 0 < top_fraction <= 1:
+        raise ValueError("top_fraction must be greater than 0 and less than or equal to 1.")
+    for column in [bag_col, id_col, attention_col]:
+        if column not in attention_table.columns:
+            raise ValueError(f"attention_table must include {column!r}.")
+
+    rows = []
+    for bag_id in attention_table[bag_col].unique().to_list():
+        bag_table = attention_table.filter(pl.col(bag_col) == bag_id).sort(attention_col, descending=True)
+        n_in_bag = bag_table.height
+        n_top = max(1, int(np.ceil(n_in_bag * top_fraction)))
+        for rank, row in enumerate(bag_table.select([bag_col, id_col]).iter_rows(named=True), start=1):
+            rows.append(
+                {
+                    bag_col: row[bag_col],
+                    id_col: row[id_col],
+                    "attention_rank_in_bag": rank,
+                    "n_instances_in_bag": n_in_bag,
+                    "n_top_instances_in_bag": n_top,
+                    "top_attention": rank <= n_top,
+                }
+            )
+
+    if not rows:
+        return attention_table.with_columns(
+            [
+                pl.Series("attention_rank_in_bag", [], dtype=pl.Int64),
+                pl.Series("n_instances_in_bag", [], dtype=pl.Int64),
+                pl.Series("n_top_instances_in_bag", [], dtype=pl.Int64),
+                pl.Series("top_attention", [], dtype=pl.Boolean),
+            ]
+        )
+
+    return attention_table.join(pl.from_dicts(rows), on=[bag_col, id_col], how="left").sort(
+        [bag_col, "attention_rank_in_bag"]
+    )
+
+
+def select_top_attention_instances(
+    attention_table: pl.DataFrame,
+    *,
+    bag_col: str = "bag_id",
+    id_col: str = "instance_id",
+    attention_col: str = "attention",
+    top_fraction: float = 0.10,
+) -> pl.DataFrame:
+    """Select top-attention instances within each bag/sample."""
+    return _scored_top_attention_table(
+        attention_table,
+        bag_col=bag_col,
+        id_col=id_col,
+        attention_col=attention_col,
+        top_fraction=top_fraction,
+    ).filter(pl.col("top_attention"))
+
+
+def _empty_pseudobulk_table() -> pl.DataFrame:
+    return pl.DataFrame(
+        schema={
+            "bag_id": pl.String,
+            "bag_label": pl.String,
+            "group": pl.String,
+            "feature_type": pl.String,
+            "attention_subset": pl.String,
+            "feature": pl.String,
+            "value": pl.Float64,
+            "n_instances": pl.Int64,
+            "mean_attention": pl.Float64,
+            "median_attention": pl.Float64,
+            "sd_attention": pl.Float64,
+        }
+    )
+
+
+def compute_top_attention_pseudobulk(
+    attention_table: pl.DataFrame,
+    feature_sets: dict[str, list[str]],
+    *,
+    feature_table: pl.DataFrame | None = None,
+    group_col: str | None = None,
+    bag_col: str = "bag_id",
+    id_col: str = "instance_id",
+    label_col: str = "bag_label",
+    attention_col: str = "attention",
+    top_fraction: float = 0.10,
+    active_threshold: float = 1e-12,
+) -> pl.DataFrame:
+    """Create sample-level pseudobulks for top-attention and rest instances."""
+    for column in [bag_col, id_col, label_col, attention_col]:
+        if column not in attention_table.columns:
+            raise ValueError(f"attention_table must include {column!r}.")
+
+    scored_attention = _scored_top_attention_table(
+        attention_table,
+        bag_col=bag_col,
+        id_col=id_col,
+        attention_col=attention_col,
+        top_fraction=top_fraction,
+    )
+    data = _prepare_attention_feature_table(
+        scored_attention,
+        feature_sets,
+        feature_table=feature_table,
+        id_col=id_col,
+    )
+
+    rows = []
+    for group_name, group_data in _iter_group_tables(data, group_col):
+        for feature_type, feature_columns in feature_sets.items():
+            active_columns = _active_feature_columns(
+                group_data,
+                feature_columns,
+                active_threshold=active_threshold,
+            )
+            if not active_columns:
+                continue
+
+            for bag_id in group_data[bag_col].unique().to_list():
+                bag_data = group_data.filter(pl.col(bag_col) == bag_id)
+                if bag_data.height == 0:
+                    continue
+                bag_label = str(bag_data[label_col][0])
+
+                for subset_name, subset_data in [
+                    ("top", bag_data.filter(pl.col("top_attention"))),
+                    ("rest", bag_data.filter(~pl.col("top_attention"))),
+                ]:
+                    if subset_data.height == 0:
+                        continue
+
+                    attention_values = subset_data[attention_col].to_numpy().astype(np.float64)
+                    feature_values = subset_data.select(active_columns).to_numpy().astype(np.float64)
+                    feature_means = np.nanmean(feature_values, axis=0)
+                    sd_attention = float(np.std(attention_values, ddof=1)) if attention_values.size > 1 else 0.0
+
+                    for feature, value in zip(active_columns, feature_means):
+                        rows.append(
+                            {
+                                "bag_id": str(bag_id),
+                                "bag_label": bag_label,
+                                "group": group_name,
+                                "feature_type": feature_type,
+                                "attention_subset": subset_name,
+                                "feature": feature,
+                                "value": float(value),
+                                "n_instances": subset_data.height,
+                                "mean_attention": float(np.mean(attention_values)),
+                                "median_attention": float(np.median(attention_values)),
+                                "sd_attention": sd_attention,
+                            }
+                        )
+
+    if not rows:
+        return _empty_pseudobulk_table()
+    return pl.from_dicts(rows).sort(["group", "feature_type", "bag_id", "attention_subset", "feature"])
+
+
+def _empty_feature_comparisons_table() -> pl.DataFrame:
+    return pl.DataFrame(
+        schema={
+            "comparison": pl.String,
+            "comparison_label": pl.String,
+            "group": pl.String,
+            "feature_type": pl.String,
+            "feature": pl.String,
+            "label_a": pl.String,
+            "label_b": pl.String,
+            "effect_size": pl.Float64,
+            "pvalue": pl.Float64,
+            "neg_log_pvalue": pl.Float64,
+            "significant": pl.Boolean,
+            "n_samples_a": pl.Int64,
+            "n_samples_b": pl.Int64,
+        }
+    )
+
+
+def _append_comparison_row(
+    rows: list[dict[str, object]],
+    *,
+    comparison: str,
+    comparison_label: str,
+    group_name: str,
+    feature_type: str,
+    feature: str,
+    label_a: str,
+    label_b: str,
+    values_a: np.ndarray,
+    values_b: np.ndarray,
+    pval_threshold: float,
+    paired: bool = False,
+) -> None:
+    values_a = np.asarray(values_a, dtype=np.float64)
+    values_b = np.asarray(values_b, dtype=np.float64)
+    if values_a.size == 0 or values_b.size == 0:
+        return
+
+    if paired:
+        n = min(values_a.size, values_b.size)
+        pair_values = np.column_stack([values_a[:n], values_b[:n]])
+        pair_values = pair_values[np.isfinite(pair_values).all(axis=1)]
+        if pair_values.shape[0] == 0:
+            return
+        values_a = pair_values[:, 0]
+        values_b = pair_values[:, 1]
+        effect_size = _paired_effect_size(values_a, values_b)
+        pvalue = _safe_paired_ttest_pvalue(values_a, values_b)
+    else:
+        values_a = values_a[np.isfinite(values_a)]
+        values_b = values_b[np.isfinite(values_b)]
+        if values_a.size == 0 or values_b.size == 0:
+            return
+        effect_size = compute_cohens_d(values_a, values_b)
+        pvalue = _safe_ttest_pvalue(values_a, values_b)
+
+    rows.append(
+        {
+            "comparison": comparison,
+            "comparison_label": comparison_label,
+            "group": group_name,
+            "feature_type": feature_type,
+            "feature": feature,
+            "label_a": label_a,
+            "label_b": label_b,
+            "effect_size": effect_size,
+            "pvalue": pvalue,
+            "neg_log_pvalue": _neg_log_pvalue(pvalue),
+            "significant": bool(np.isfinite(pvalue) and pvalue < pval_threshold),
+            "n_samples_a": int(values_a.size),
+            "n_samples_b": int(values_b.size),
+        }
+    )
+
+
+def compute_top_attention_feature_comparisons(
+    pseudobulk_table: pl.DataFrame,
+    *,
+    pval_threshold: float = 0.05,
+) -> pl.DataFrame:
+    """Compare top-attention pseudobulks with MultiMIL-style lightweight contrasts."""
+    required_columns = {"bag_id", "bag_label", "group", "feature_type", "attention_subset", "feature", "value"}
+    missing_columns = sorted(required_columns.difference(pseudobulk_table.columns))
+    if missing_columns:
+        raise ValueError(f"pseudobulk_table is missing required columns: {missing_columns}")
+    if pseudobulk_table.height == 0:
+        return _empty_feature_comparisons_table()
+
+    rows: list[dict[str, object]] = []
+    keys = pseudobulk_table.select(["group", "feature_type", "feature"]).unique().sort(
+        ["group", "feature_type", "feature"]
+    )
+
+    for key in keys.iter_rows(named=True):
+        group_name = key["group"]
+        feature_type = key["feature_type"]
+        feature = key["feature"]
+        feature_data = pseudobulk_table.filter(
+            (pl.col("group") == group_name)
+            & (pl.col("feature_type") == feature_type)
+            & (pl.col("feature") == feature)
+        )
+        labels = sorted(feature_data["bag_label"].unique().to_list())
+
+        for label in labels:
+            label_data = feature_data.filter(pl.col("bag_label") == label)
+            top_data = label_data.filter(pl.col("attention_subset") == "top").select(["bag_id", "value"])
+            rest_data = label_data.filter(pl.col("attention_subset") == "rest").select(["bag_id", "value"])
+            paired_data = top_data.join(rest_data, on="bag_id", how="inner", suffix="_rest").sort("bag_id")
+            if paired_data.height:
+                _append_comparison_row(
+                    rows,
+                    comparison="top_vs_rest_within_label",
+                    comparison_label=f"{label}: top vs rest",
+                    group_name=group_name,
+                    feature_type=feature_type,
+                    feature=feature,
+                    label_a=f"{label}:top",
+                    label_b=f"{label}:rest",
+                    values_a=paired_data["value"].to_numpy(),
+                    values_b=paired_data["value_rest"].to_numpy(),
+                    pval_threshold=pval_threshold,
+                    paired=True,
+                )
+
+        top_feature_data = feature_data.filter(pl.col("attention_subset") == "top")
+        for label_b, label_a in combinations(labels, 2):
+            values_a = top_feature_data.filter(pl.col("bag_label") == label_a)["value"].to_numpy()
+            values_b = top_feature_data.filter(pl.col("bag_label") == label_b)["value"].to_numpy()
+            _append_comparison_row(
+                rows,
+                comparison="top_label_vs_top_label",
+                comparison_label=f"top {label_a} vs top {label_b}",
+                group_name=group_name,
+                feature_type=feature_type,
+                feature=feature,
+                label_a=f"{label_a}:top",
+                label_b=f"{label_b}:top",
+                values_a=values_a,
+                values_b=values_b,
+                pval_threshold=pval_threshold,
+            )
+
+        for target_label in labels:
+            values_a = top_feature_data.filter(pl.col("bag_label") == target_label)["value"].to_numpy()
+            values_b = top_feature_data.filter(pl.col("bag_label") != target_label)["value"].to_numpy()
+            _append_comparison_row(
+                rows,
+                comparison="target_top_vs_other_top",
+                comparison_label=f"top {target_label} vs other top",
+                group_name=group_name,
+                feature_type=feature_type,
+                feature=feature,
+                label_a=f"{target_label}:top",
+                label_b="other:top",
+                values_a=values_a,
+                values_b=values_b,
+                pval_threshold=pval_threshold,
+            )
+
+    if not rows:
+        return _empty_feature_comparisons_table()
+    return pl.from_dicts(rows).sort(["group", "feature_type", "comparison", "neg_log_pvalue"], descending=[False, False, False, True])
+
+
+def plot_top_attention_feature_heatmap(
+    comparisons_table: pl.DataFrame,
+    output_path: str | Path,
+) -> None:
+    """Plot feature-by-comparison effect sizes, outlining significant cells."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if comparisons_table.height == 0:
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.text(0.5, 0.5, "No top-attention feature comparisons available", ha="center", va="center")
+        ax.axis("off")
+        fig.savefig(output_path, bbox_inches="tight", dpi=100)
+        plt.close(fig)
+        return
+
+    panel_keys = comparisons_table.select(["group", "feature_type"]).unique(maintain_order=True).to_dicts()
+    panel_feature_counts = []
+    for key in panel_keys:
+        panel = comparisons_table.filter(
+            (pl.col("group") == key["group"]) & (pl.col("feature_type") == key["feature_type"])
+        )
+        sig_features = panel.filter(pl.col("significant"))["feature"].unique().to_list()
+        panel_feature_counts.append(max(1, len(sig_features)))
+
+    n_panels = len(panel_keys)
+    total_feature_rows = sum(panel_feature_counts)
+    fig_height = max(3.2 * n_panels, 0.32 * total_feature_rows + 1.8 * n_panels)
+    fig, axes = plt.subplots(n_panels, 1, figsize=(10, fig_height), squeeze=False)
+    axes_flat = axes.ravel()
+    image = None
+
+    cmap = plt.cm.get_cmap("RdBu_r").copy()
+    cmap.set_bad("#F2F2F2")
+
+    for ax, key in zip(axes_flat, panel_keys):
+        group_name = key["group"]
+        feature_type = key["feature_type"]
+        panel = comparisons_table.filter(
+            (pl.col("group") == group_name) & (pl.col("feature_type") == feature_type)
+        )
+        significant_features = panel.filter(pl.col("significant"))["feature"].unique().to_list()
+        if not significant_features:
+            ax.text(0.5, 0.5, "No significant features", ha="center", va="center")
+            ax.set_title(f"{group_name} / {feature_type}", fontsize=10)
+            ax.axis("off")
+            continue
+
+        panel = panel.filter(pl.col("feature").is_in(significant_features))
+        features = panel["feature"].unique(maintain_order=True).to_list()
+        comparisons_in_panel = panel["comparison_label"].unique(maintain_order=True).to_list()
+        matrix = np.full((len(features), len(comparisons_in_panel)), np.nan, dtype=np.float64)
+        significant = np.zeros_like(matrix, dtype=bool)
+
+        feature_index = {feature: idx for idx, feature in enumerate(features)}
+        comparison_index = {comparison: idx for idx, comparison in enumerate(comparisons_in_panel)}
+        for row in panel.iter_rows(named=True):
+            row_idx = feature_index[row["feature"]]
+            col_idx = comparison_index[row["comparison_label"]]
+            matrix[row_idx, col_idx] = row["effect_size"]
+            significant[row_idx, col_idx] = bool(row["significant"])
+
+        clustering_matrix = np.nan_to_num(matrix, nan=0.0)
+        if matrix.shape[0] > 1 and np.any(np.std(clustering_matrix, axis=0) > 0):
+            order = leaves_list(linkage(clustering_matrix, method="average", metric="euclidean"))
+        elif matrix.shape[0] > 1:
+            order = np.argsort(-np.nanmax(np.abs(matrix), axis=1))
+        else:
+            order = np.arange(matrix.shape[0])
+
+        matrix = matrix[order]
+        significant = significant[order]
+        features = [features[idx] for idx in order]
+        max_abs = np.nanmax(np.abs(matrix)) if np.isfinite(matrix).any() else 1.0
+        if not np.isfinite(max_abs) or max_abs == 0:
+            max_abs = 1.0
+
+        image = ax.imshow(np.ma.masked_invalid(matrix), aspect="auto", cmap=cmap, vmin=-max_abs, vmax=max_abs)
+        for row_idx in range(significant.shape[0]):
+            for col_idx in range(significant.shape[1]):
+                if significant[row_idx, col_idx]:
+                    ax.add_patch(Rectangle((col_idx - 0.5, row_idx - 0.5), 1, 1, fill=False, edgecolor="black", linewidth=1.0))
+
+        ax.set_title(f"{group_name} / {feature_type}", fontsize=10)
+        ax.set_xticks(np.arange(len(comparisons_in_panel)))
+        ax.set_xticklabels(comparisons_in_panel, rotation=35, ha="right", fontsize=8)
+        ax.set_yticks(np.arange(len(features)))
+        ax.set_yticklabels(features, fontsize=8)
+        ax.set_xlabel("Comparison")
+        ax.set_ylabel("Feature")
+
+    fig.suptitle("Top-attention pseudobulk feature comparisons", fontsize=12)
+    fig.tight_layout(rect=(0, 0, 0.84, 0.96))
+    if image is not None:
+        cbar_ax = fig.add_axes([0.88, 0.16, 0.025, 0.68])
+        fig.colorbar(image, cax=cbar_ax, label="Effect size")
+    fig.savefig(output_path, bbox_inches="tight", dpi=100)
+    plt.close(fig)
+
+
+def _empty_attention_summary_table() -> pl.DataFrame:
+    return pl.DataFrame(
+        schema={
+            "split": pl.String,
+            "group": pl.String,
+            "feature_type": pl.String,
+            "bag_label": pl.String,
+            "mean_attention": pl.Float64,
+            "median_attention": pl.Float64,
+            "sd_attention": pl.Float64,
+            "n_samples": pl.Int64,
+            "n_instances": pl.Int64,
+        }
+    )
+
+
+def compute_attention_summary_table(
+    attention_table: pl.DataFrame,
+    feature_sets: dict[str, list[str]],
+    *,
+    feature_table: pl.DataFrame | None = None,
+    group_col: str | None = None,
+    bag_col: str = "bag_id",
+    id_col: str = "instance_id",
+    label_col: str = "bag_label",
+    attention_col: str = "attention",
+    top_fraction: float | None = 0.10,
+    active_threshold: float = 1e-12,
+) -> pl.DataFrame:
+    """Summarize attention per feature type, label, and optional group using sample-level summaries."""
+    for column in [bag_col, id_col, label_col, attention_col]:
+        if column not in attention_table.columns:
+            raise ValueError(f"attention_table must include {column!r}.")
+
+    base_attention = (
+        _scored_top_attention_table(
+            attention_table,
+            bag_col=bag_col,
+            id_col=id_col,
+            attention_col=attention_col,
+            top_fraction=top_fraction,
+        )
+        if top_fraction is not None
+        else attention_table
+    )
+    data = _prepare_attention_feature_table(
+        base_attention,
+        feature_sets,
+        feature_table=feature_table,
+        id_col=id_col,
+    )
+    if top_fraction is not None:
+        data = data.filter(pl.col("top_attention"))
+
+    rows = []
+    for group_name, group_data in _iter_group_tables(data, group_col):
+        for feature_type, feature_columns in feature_sets.items():
+            active_columns = _active_feature_columns(
+                group_data,
+                feature_columns,
+                active_threshold=active_threshold,
+            )
+            if not active_columns:
+                continue
+
+            for label in sorted(group_data[label_col].unique().to_list()):
+                label_data = group_data.filter(pl.col(label_col) == label)
+                sample_means = []
+                sample_medians = []
+                sample_sds = []
+                n_instances = 0
+
+                for bag_id in label_data[bag_col].unique().to_list():
+                    bag_data = label_data.filter(pl.col(bag_col) == bag_id)
+                    attention_values = bag_data[attention_col].to_numpy().astype(np.float64)
+                    if attention_values.size == 0:
+                        continue
+                    sample_means.append(float(np.mean(attention_values)))
+                    sample_medians.append(float(np.median(attention_values)))
+                    sample_sds.append(float(np.std(attention_values, ddof=1)) if attention_values.size > 1 else 0.0)
+                    n_instances += int(attention_values.size)
+
+                if not sample_means:
+                    continue
+
+                label_str = str(label)
+                split = f"{feature_type} | label={label_str}"
+                if group_col is not None:
+                    split = f"{feature_type} | label={label_str} | {group_col}={group_name}"
+
+                rows.append(
+                    {
+                        "split": split,
+                        "group": group_name,
+                        "feature_type": feature_type,
+                        "bag_label": label_str,
+                        "mean_attention": float(np.mean(sample_means)),
+                        "median_attention": float(np.median(sample_medians)),
+                        "sd_attention": float(np.mean(sample_sds)),
+                        "n_samples": len(sample_means),
+                        "n_instances": n_instances,
+                    }
+                )
+
+    if not rows:
+        return _empty_attention_summary_table()
+    return pl.from_dicts(rows).sort("mean_attention", descending=True)
+
+
+def plot_attention_summary_heatmap(
+    summary_table: pl.DataFrame,
+    output_path: str | Path,
+) -> None:
+    """Plot sample-balanced attention summaries by feature type, label, and optional group."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if summary_table.height == 0:
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.text(0.5, 0.5, "No attention summaries available", ha="center", va="center")
+        ax.axis("off")
+        fig.savefig(output_path, bbox_inches="tight", dpi=100)
+        plt.close(fig)
+        return
+
+    heatmap_metrics = ["mean_attention", "median_attention"]
+    table = summary_table.sort("mean_attention", descending=True)
+    splits = table["split"].to_list()
+    matrix = table.select(heatmap_metrics).to_numpy().astype(np.float64)
+    sd_values = table["sd_attention"].to_numpy().astype(np.float64)
+
+    fig_height = max(4.0, 0.38 * len(splits) + 1.6)
+    fig, ax = plt.subplots(figsize=(8.8, fig_height))
+    vmin = float(np.nanmin(matrix)) if np.isfinite(matrix).any() else 0.0
+    vmax = float(np.nanmax(matrix)) if np.isfinite(matrix).any() else 1.0
+    if vmin == vmax:
+        vmax = vmin + 1e-6
+    image = ax.imshow(matrix, aspect="auto", cmap="Reds", vmin=vmin, vmax=vmax)
+
+    ax.set_xticks(np.arange(len(heatmap_metrics)))
+    ax.set_xticklabels(["mean", "median"], fontsize=9)
+    ax.set_yticks(np.arange(len(splits)))
+    ax.set_yticklabels(splits, fontsize=8)
+    ax.set_title("Sample-balanced top-attention summaries", fontsize=11)
+    ax.set_xlim(-0.5, 2.65)
+
+    for row_idx in range(matrix.shape[0]):
+        for col_idx in range(matrix.shape[1]):
+            ax.text(
+                col_idx,
+                row_idx,
+                f"{matrix[row_idx, col_idx]:.3f}",
+                ha="center",
+                va="center",
+                fontsize=7,
+                color="black",
+            )
+        sd_label = "sd=NA" if not np.isfinite(sd_values[row_idx]) else f"sd={sd_values[row_idx]:.3f}"
+        ax.text(
+            2.15,
+            row_idx,
+            sd_label,
+            ha="left",
+            va="center",
+            fontsize=7,
+            color="black",
+        )
+
+    fig.colorbar(image, ax=ax, shrink=0.75, label="Attention")
+    fig.tight_layout()
+    fig.savefig(output_path, bbox_inches="tight", dpi=100)
+    plt.close(fig)
 
 
 def compute_grouped_feature_statistics(
