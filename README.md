@@ -82,4 +82,6 @@ The demo writes outputs to `results/run_pipeline_simulated/`:
 
 This project is in active development and currently uses simulated data. Raw omics or sequence preprocessing belongs upstream of this workflow; this repository demonstrates MIL over prepared instance-level feature or embedding tables.
 
-Inspired by MultiMIL: Litinetskaya et al., *Weakly supervised learning uncovers phenotypic signatures in single-cell data*, bioRxiv 2024.07.29.605625, https://doi.org/10.1101/2024.07.29.605625.
+Adapted from MultiMIL as a lightweight, more generic implementation for prepared instance-level feature or embedding tables:
+
+Litinetskaya et al., *Weakly supervised learning uncovers phenotypic signatures in single-cell data*, bioRxiv 2024.07.29.605625, https://doi.org/10.1101/2024.07.29.605625.
