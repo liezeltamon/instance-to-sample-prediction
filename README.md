@@ -1,17 +1,30 @@
 # Instance-to-sample prediction
 
-A workflow for predicting sample-level labels from collections of instance-level measurements to determine most important instances to prediction.
+A workflow for predicting sample-level labels from collections of instance-level measurements and identifying which instances contribute most to the prediction.
 
-The motivating use case is biomedical data where an outcome is known for a whole sample or patient, but the relevant signal may come from a small subset of cells, clones, or molecular observations.
+The motivating use case is biomedical data where an outcome is known for a whole sample or patient, but the relevant signal may come from a small subset of cells, clones, or molecular observations. The workflow expects a MIL-ready instance table rather than raw sequencing data: upstream preprocessing should already have produced numeric feature or embedding columns.
 
-This repository demonstrates a multiple-instance learning (MIL) workflow on simulated single-cell immune profiling data (RNA, BCR/TCR sequences). Each sample is represented as a bag of instances with RNA-like numeric features plus TCR/BCR sequence features. A gated-attention MIL classifier predicts the sample label and produces attention scores that can be inspected as candidate driver instances.
+## Expected input
+
+The core workflow expects one row per instance with sample identifiers, sample-level labels, optional group annotations, and numeric feature or embedding columns. These numeric columns can be original features or upstream embeddings such as PCA, scVI, repertoire embeddings, morphology embeddings, or other model-derived representations.
+
+```text
+bag_id  instance_id  bag_label  cell_type  transcriptome_0  transcriptome_1  repertoire_0  repertoire_1
+S001    cell_001     1          T          0.12             -0.44            0.88          -0.11
+S001    cell_002     1          myeloid    -0.31             0.72            0.00           0.00
+S002    cell_003     0          B          1.12              0.03           -0.23           0.61
+```
+
+`driver_true` is used only in the simulated demo to evaluate attention recovery; it is not required for real prediction use.
 
 ## Workflow
 
-1. Generate simulated bagged data with known driver instances.
-2. Encode RNA-like features and TCR/BCR sequences.
+1. Create or provide a MIL-ready instance table.
+2. Select numeric feature or embedding columns by modality.
 3. Train a gated-attention MIL classifier from sample-level labels.
-4. Export sample predictions, instance-level attention scores, performance metrics, and feature diagnostics.
+4. Export sample predictions, instance-level attention scores, performance metrics, and grouped feature diagnostics.
+
+The included simulation creates a small MIL-ready example with transcriptome and repertoire feature blocks. Simulated T and B cells have repertoire features; simulated myeloid cells have transcriptome features only and zero-valued repertoire features.
 
 ## Setup
 
@@ -41,20 +54,21 @@ MPLCONFIGDIR=.cache/matplotlib python scripts/run_pipeline_simulated.py
 The demo writes outputs to `results/run_pipeline_simulated/`:
 
 - `sample_predictions.csv`: sample labels and predicted probabilities.
-- `instance_attention.csv`: attention scores for each instance, including the known simulated driver label.
+- `instance_attention.csv`: attention scores for each instance, including `cell_type` and the known simulated driver label.
 - `performance_metrics.csv`: sample-level and attention-based performance metrics.
 - `performance_metrics.png`: bar plot of available performance metrics.
 - `attention_diagnostics.png`: attention by true driver status.
-- `volcano_rna.png` and `volcano_repertoire.png`: driver vs non-driver feature diagnostics.
-- `feature_stats_all.csv`: combined feature statistics for RNA and repertoire features.
+- `comparison_groups.csv`: driver and matched non-driver counts used for grouped comparisons.
+- `feature_stats_grouped.csv`: per-group, per-modality driver vs non-driver feature statistics.
+- `volcano_grouped.png`: grouped volcano panels for transcriptome and active repertoire feature blocks.
 
 ## Repository layout
 
 - `scripts/`: runnable workflow scripts.
-- `utils/`: reusable data generation, encoding, MIL, plotting, and table helpers.
+- `utils/`: reusable data generation, MIL, plotting, and table helpers.
 - `results/`: generated workflow outputs.
 - `tests/manual/`: lightweight manual checks for demo runs.
 
 ## Notes
 
-This project is in active development and currently uses simulated data for that. The current workflow is a proof of concept for the modelling structure and diagnostics, not a clinically evaluated model.
+This project is in active development and currently uses simulated data. Raw omics or sequence preprocessing belongs upstream of this workflow; this repository demonstrates MIL over prepared instance-level feature or embedding tables.

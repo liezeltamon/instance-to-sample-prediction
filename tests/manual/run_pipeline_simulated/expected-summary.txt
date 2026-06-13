@@ -3,6 +3,9 @@ The pipeline should create:
 - results/run_pipeline_simulated/sample_predictions.csv
 - results/run_pipeline_simulated/performance_metrics.csv
 - results/run_pipeline_simulated/performance_metrics.png
+- results/run_pipeline_simulated/comparison_groups.csv
+- results/run_pipeline_simulated/feature_stats_grouped.csv
+- results/run_pipeline_simulated/volcano_grouped.png
 - results/run_pipeline_simulated/attention_diagnostics.png
 
 Console output should include:

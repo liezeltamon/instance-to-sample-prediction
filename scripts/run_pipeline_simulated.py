@@ -11,36 +11,46 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from utils.analysis import (
-    add_repertoire_features_to_dataframe,
+    compute_grouped_feature_statistics,
     compute_performance_metrics,
     plot_attention_diagnostics,
+    plot_grouped_volcano,
     plot_performance_metrics,
-    plot_volcano,
+    sample_driver_and_nondriver_ids,
     summarize_attention_by_truth,
 )
 from utils.data import generate_synthetic_bag_data
-from utils.encoders import NumericEncoder, SequenceEncoder, concatenate_modalities
+from utils.encoders import concatenate_modalities
 from utils.mil import MILClassifier, predict_mil, train_mil_model
 from utils.wrangling import ensure_dir, save_table
+
+
+def columns_with_prefix(table: pl.DataFrame, prefix: str) -> list[str]:
+    return [column for column in table.columns if column.startswith(prefix)]
 
 
 def main() -> None:
     output_root = Path("results/run_pipeline_simulated")
     ensure_dir(output_root)
 
-    data = generate_synthetic_bag_data(n_bags=20, bag_size=40, n_rna_features=12, drivers_per_positive_bag=5)
+    group_col = "cell_type"
+    data = generate_synthetic_bag_data(
+        n_bags=20,
+        bag_size=40,
+        n_transcriptome_features=12,
+        n_repertoire_features=12,
+        drivers_per_positive_bag=5,
+        group_col=group_col,
+        seed=0,
+    )
     sample_table = data.select(["bag_id", "bag_label"]).unique().sort("bag_id")
 
-    numeric_encoder = NumericEncoder([f"rna_{i}" for i in range(12)])
-    x_numeric = numeric_encoder.fit_transform(data)
+    transcriptome_cols = columns_with_prefix(data, "transcriptome_")
+    repertoire_cols = columns_with_prefix(data, "repertoire_")
+    x_transcriptome = data.select(transcriptome_cols).to_numpy().astype(np.float32)
+    x_repertoire = data.select(repertoire_cols).to_numpy().astype(np.float32)
+    x = concatenate_modalities(x_transcriptome, x_repertoire)
 
-    tcr_encoder = SequenceEncoder(k=2)
-    x_tcr = tcr_encoder.encode_dataframe(data, "tcr_sequence")
-
-    bcr_encoder = SequenceEncoder(k=2)
-    x_bcr = bcr_encoder.encode_dataframe(data, "bcr_sequence")
-
-    x = concatenate_modalities(x_numeric, x_tcr, x_bcr)
     bag_index = data["bag_id"].to_pandas().factorize()[0].astype(np.int64)
     bag_labels = (
         data.group_by("bag_id", maintain_order=True)
@@ -57,7 +67,7 @@ def main() -> None:
 
     probabilities, attention, bag_ids = predict_mil(model, x, bag_index)
 
-    attention_table = data.select(["bag_id", "instance_id", "driver_true"]).with_columns(
+    attention_table = data.select(["bag_id", "instance_id", group_col, "driver_true"]).with_columns(
         pl.Series("attention", attention)
     )
 
@@ -85,32 +95,32 @@ def main() -> None:
         print(f"{row['metric']}: {row['value']}")
 
     plot_attention_diagnostics(attention_table, output_root / "attention_diagnostics.png")
+
+    driver_ids, nondriver_ids, comparison_summary = sample_driver_and_nondriver_ids(
+        attention_table,
+        group_col=group_col,
+        seed=0,
+    )
+    save_table(comparison_summary, output_root / "comparison_groups.csv")
+
+    feature_sets = {
+        "transcriptome": transcriptome_cols,
+        "repertoire": repertoire_cols,
+    }
+    grouped_stats = compute_grouped_feature_statistics(
+        data,
+        driver_ids,
+        nondriver_ids,
+        feature_sets,
+        group_col=group_col,
+    )
+    save_table(grouped_stats, output_root / "feature_stats_grouped.csv")
+    plot_grouped_volcano(grouped_stats, output_root / "volcano_grouped.png")
+
     print(f"Wrote outputs to {output_root}")
-    
-    # Feature comparison: volcano plots for each modality (matching concatenation: rna + repertoire)
-    driver_ids = set(attention_table.filter(pl.col("driver_true") == 1)["instance_id"].to_list())
-    nondriver_ids = set(attention_table.filter(pl.col("driver_true") == 0)["instance_id"].to_list())
-    nondriver_sample = set(np.random.choice(list(nondriver_ids), size=len(driver_ids), replace=False))
-    
-    # RNA modality volcano
-    rna_cols = [f"rna_{i}" for i in range(12)]
-    rna_stats = plot_volcano(data, driver_ids, nondriver_sample, rna_cols, output_root / "volcano_rna.png", title="RNA Features: Drivers vs Non-drivers", top_n_labels=6)
-    rna_stats = rna_stats.with_columns(pl.lit("rna").alias("modality"))
-    
-    # Repertoire modality volcano (TCR + BCR combined)
-    data_with_tcr, tcr_feature_cols = add_repertoire_features_to_dataframe(data, "tcr_sequence", "tcr")
-    data_with_repertoire, bcr_feature_cols = add_repertoire_features_to_dataframe(data_with_tcr, "bcr_sequence", "bcr")
-    repertoire_feature_cols = tcr_feature_cols + bcr_feature_cols
-    
-    repertoire_stats = plot_volcano(data_with_repertoire, driver_ids, nondriver_sample, repertoire_feature_cols, output_root / "volcano_repertoire.png", title="Repertoire Features (TCR+BCR): Drivers vs Non-drivers", top_n_labels=12)
-    repertoire_stats = repertoire_stats.with_columns(pl.lit("repertoire").alias("modality"))
-    
-    # Combine all feature statistics into a single file
-    all_feature_stats = pl.concat([rna_stats, repertoire_stats])
-    save_table(all_feature_stats, output_root / "feature_stats_all.csv")
-    
-    print("Saved combined feature statistics to:")
-    print(f"  - {output_root / 'feature_stats_all.csv'}")
+    print("Saved grouped feature diagnostics to:")
+    print(f"  - {output_root / 'feature_stats_grouped.csv'}")
+    print(f"  - {output_root / 'volcano_grouped.png'}")
 
 
 if __name__ == "__main__":
