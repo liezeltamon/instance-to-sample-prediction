@@ -1,0 +1,12 @@
+The pipeline should create:
+- results/run_pipeline_simulated/instance_attention.csv
+- results/run_pipeline_simulated/sample_predictions.csv
+- results/run_pipeline_simulated/performance_metrics.csv
+- results/run_pipeline_simulated/performance_metrics.png
+- results/run_pipeline_simulated/attention_diagnostics.png
+
+Console output should include:
+- mean_attention_driver
+- mean_attention_non_driver
+- attention_auc
+- sample_accuracy_0_5

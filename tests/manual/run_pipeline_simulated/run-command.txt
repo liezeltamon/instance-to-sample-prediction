@@ -1,0 +1,1 @@
+python scripts/run_pipeline_simulated.py

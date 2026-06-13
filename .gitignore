@@ -1,2 +1,66 @@
-*.DS_Store
-*.Rhistory
+# OS
+
+.DS_Store
+
+# R
+
+.Rhistory
+.Rapp.history
+.Rproj.user/
+.Ruserdata
+.RData
+
+# Data objects
+
+*.qs
+*.rds
+
+# Archives
+
+*.tar
+*.gz
+
+# Logs
+
+*.log
+*.log.out
+*.log.err
+
+# Rendered outputs
+
+*.utf8.md
+*.knit.md
+*.html
+*.pdf
+*.png
+*.xlsx
+
+# Temporary scripts/configs
+
+*[0-9].yml
+*[0-9].sh
+
+# Project-specific
+
+sps-*
+z_ignore_git/
+
+# Knitr / Quarto cache
+
+*_files/
+*_cache/
+
+# Virtual environments
+
+.venv/
+
+# Data directories
+
+data-raw/*
+!data-raw/README.md
+
+data/*
+!data/README.md
+
+results/*
+!results/README.md

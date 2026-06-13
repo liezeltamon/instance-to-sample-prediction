@@ -1,0 +1,8 @@
+adjustText
+matplotlib
+numpy
+pandas
+polars
+scikit-learn
+scipy
+torch
