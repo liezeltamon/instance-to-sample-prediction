@@ -4,6 +4,8 @@ A workflow for predicting sample-level labels from collections of instance-level
 
 The motivating use case is biomedical data where an outcome is known for a whole sample or patient, but the relevant signal may come from a small subset of cells, clones, or molecular observations. The workflow expects a MIL-ready instance table rather than raw sequencing data: upstream preprocessing should already have produced numeric feature or embedding columns.
 
+This repository is a lightweight, more generic adaptation of MultiMIL for prepared instance-level feature or embedding tables.
+
 ## Expected input
 
 The core workflow expects one row per instance with sample identifiers, sample-level labels, optional group annotations, and numeric feature or embedding columns. These numeric columns can be original features or upstream embeddings such as PCA, scVI, repertoire embeddings, morphology embeddings, or other model-derived representations.
@@ -79,3 +81,5 @@ The demo writes outputs to `results/run_pipeline_simulated/`:
 ## Notes
 
 This project is in active development and currently uses simulated data. Raw omics or sequence preprocessing belongs upstream of this workflow; this repository demonstrates MIL over prepared instance-level feature or embedding tables.
+
+Inspired by MultiMIL: Litinetskaya et al., *Weakly supervised learning uncovers phenotypic signatures in single-cell data*, bioRxiv 2024.07.29.605625, https://doi.org/10.1101/2024.07.29.605625.
